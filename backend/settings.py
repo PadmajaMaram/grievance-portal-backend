@@ -16,10 +16,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ============================================================
 
-# Add the real value in Render Environment Variables.
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-dev-secret-key")
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-dev-secret-key"
+)
 
-# False by default.
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 
@@ -32,7 +33,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-# Render will provide the hostname through an environment variable.
+# Render automatically provides this environment variable
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 
 if RENDER_EXTERNAL_HOSTNAME:
@@ -46,12 +47,14 @@ if RENDER_EXTERNAL_HOSTNAME:
 INSTALLED_APPS = [
     "users",
     "corsheaders",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "rest_framework",
 ]
 
@@ -63,6 +66,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -88,12 +92,17 @@ WSGI_APPLICATION = "backend.wsgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
+
         "DIRS": [],
+
         "APP_DIRS": True,
+
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
+
                 "django.contrib.auth.context_processors.auth",
+
                 "django.contrib.messages.context_processors.messages",
             ],
         },
@@ -106,11 +115,11 @@ TEMPLATES = [
 # ============================================================
 
 # LOCAL:
-# Django uses SQLite (db.sqlite3).
+# If DATABASE_URL is not available, Django uses SQLite.
 #
 # RENDER:
-# When DATABASE_URL exists, Django automatically uses
-# the Render PostgreSQL database.
+# Render provides DATABASE_URL.
+# When DATABASE_URL exists, Django connects to PostgreSQL.
 
 DATABASES = {
     "default": dj_database_url.config(
@@ -127,16 +136,23 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
+
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
+
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
+
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -158,7 +174,7 @@ USE_TZ = True
 # STATIC FILES
 # ============================================================
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
@@ -184,7 +200,6 @@ EMAIL_PORT = 587
 
 EMAIL_USE_TLS = True
 
-# These values will be provided through Render Environment Variables.
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
@@ -206,9 +221,7 @@ ADMIN_EMAILS = [
 # CORS
 # ============================================================
 
-# Temporary value.
-# We will replace this with your real Vercel frontend URL
-# after the frontend is deployed.
+# We will replace this after deploying the React frontend.
 
 CORS_ALLOWED_ORIGINS = [
     "https://your-frontend.vercel.app",
