@@ -224,7 +224,7 @@ ADMIN_EMAILS = [
 # We will replace this after deploying the React frontend.
 
 CORS_ALLOWED_ORIGINS = [
-    "https://your-frontend.vercel.app",
+    "https://grievance-portal-esq3.vercel.app",
 ]
 
 
